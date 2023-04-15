@@ -8,19 +8,34 @@
 #define ID_S_TEMP 1
 MyMessage msg_S_TEMP(ID_S_TEMP, V_TEMP);
 
-bool led_state = false;
-
+float steinhart = 0;
 
 #include <Wire.h>
 
 #include <LiquidCrystal_I2C.h>
 LiquidCrystal_I2C lcd(0x27, 20, 2); // set the LCD address to 0x27 for a 16 chars and 2 line display
 
-#include <Adafruit_I2CDevice.h>
-#include <Adafruit_I2CRegister.h>
-#include "Adafruit_MCP9600.h"
-
-#define I2C_ADDRESS (0x67)
-
-Adafruit_MCP9600 mcp;
-float tempF = 0;
+float Steinhart() {
+        int ADCvalue = 0;
+        const float seriesResistor = 996.0;
+        const float Vcc = 4.9;
+        #define NTCPin A3
+        pinMode(NTCPin,INPUT);
+        for (int n = 0; n < 10; n++){
+            wait(10); //this increased resolution signifigantly
+            ADCvalue += analogRead(NTCPin);
+        }
+        ADCvalue /= 10;
+        float Va3 = (1.0 - ((float)ADCvalue / 1023.0)) * Vcc;
+        float thermistorResistance = (seriesResistor * Va3) / (Vcc - Va3);
+        float tempF = (-0.259 * thermistorResistance) + 228.554;
+        // Serial.print("ADCvalue ");
+        // Serial.println(ADCvalue);
+        // Serial.print("Va3 ");
+        // Serial.println(Va3);
+        // Serial.print("thermistorResistance ");
+        // Serial.println(thermistorResistance);
+        // Serial.print("tempF ");
+        // Serial.println(tempF);
+        return tempF;
+}

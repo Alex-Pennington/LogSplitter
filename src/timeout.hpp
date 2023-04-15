@@ -12,7 +12,7 @@ bool timeout60() {
         firstrun = false;
         return true;
     }
-    if (millis() > (timeout60_var + 60000)) {
+    if (millis() > (timeout60_var + 10000)) {
         timeout60_var = millis();
         return true;
     } else {
