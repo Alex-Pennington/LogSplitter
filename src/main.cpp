@@ -3,12 +3,13 @@
 #include "timeout.hpp"
 #include "buttons.hpp"
 
-void presentation() {
-  present(ID_S_TEMP, S_TEMP, "HF");
-}
+//void presentation() {
+//  present(ID_S_TEMP, S_TEMP, "HF");
+//}
 
 void setup() {
   Serial.begin(9600);
+  Serial.print("test");
   // BUTTON SETUP 
   
   // SELECT ONE OF THE FOLLOWING :
@@ -71,7 +72,7 @@ void loop() {
     lcd.setCursor(0, 0);
     lcd.print("Temp: ");
     float tempF = Steinhart();
-    send(msg_S_TEMP.set((int)tempF));
+    //send(msg_S_TEMP.set((int)tempF));
 
     lcd.print(tempF);
     lcd.print(" F");

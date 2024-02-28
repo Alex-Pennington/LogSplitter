@@ -1,0 +1,12 @@
+{
+	"folders": [
+		{
+			"path": "."
+		},
+		{
+			"name": "PIR MySensors",
+			"path": "../PIR MySensors"
+		}
+	],
+	"settings": {}
+}

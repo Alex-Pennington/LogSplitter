@@ -1,12 +1,12 @@
 //#define MY_DEBUG
-#define MY_RADIO_RF24
-#define MY_NODE_ID 254
-#define MY_TRANSPORT_UPLINK_CHECK_DISABLED
-#include <MySensors.h>
-#define SKETCH_NAME "LogSplitter"
-#define SKETCH_VERSION "v0.1"
-#define ID_S_TEMP 1
-MyMessage msg_S_TEMP(ID_S_TEMP, V_TEMP);
+//#define MY_RADIO_RF24
+//#define MY_NODE_ID 254
+//#define MY_TRANSPORT_UPLINK_CHECK_DISABLED
+//#include <MySensors.h>
+//#define SKETCH_NAME "LogSplitter"
+//#define SKETCH_VERSION "v0.1"
+//#define ID_S_TEMP 1
+//MyMessage msg_S_TEMP(ID_S_TEMP, V_TEMP);
 
 float steinhart = 0;
 
@@ -22,7 +22,7 @@ float Steinhart() {
         #define NTCPin A3
         pinMode(NTCPin,INPUT);
         for (int n = 0; n < 10; n++){
-            wait(10); //this increased resolution signifigantly
+            delayMicroseconds(10); //this increased resolution signifigantly
             ADCvalue += analogRead(NTCPin);
         }
         ADCvalue /= 10;
