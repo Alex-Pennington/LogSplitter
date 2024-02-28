@@ -10,6 +10,12 @@
 void setup() {
   Serial.begin(9600);
   Serial.print("test");
+
+  // set up I2C
+  Wire.begin(thisAddress); // join i2c bus
+  //~ Wire.onReceive(receiveEvent); // register function to be called when a message arrives
+
+
   // BUTTON SETUP 
   
   // SELECT ONE OF THE FOLLOWING :
@@ -67,6 +73,19 @@ void setup() {
 }
 
 void loop() {
+
+// this bit checks if a message has been received
+  if (newRxData == true) {
+    showNewData();
+    newRxData = false;
+  }
+  // this function updates the data in txData
+  updateDataToSend();
+  // this function sends the data if one is ready to be sent
+  transmitData();
+  requestData();
+
+
   if (timeout60()) {
     lcd.clear();
     lcd.setCursor(0, 0);
