@@ -42,7 +42,7 @@ void buttons()
   {
     if (button_A.isPressed())
     {
-            Wire.beginTransmission(9); // transmit to device #9
+      Wire.beginTransmission(9); // transmit to device #9
       Wire.write(2);             // sends x
       Wire.endTransmission();
     }
@@ -51,41 +51,42 @@ void buttons()
   {
     if (button_B.isPressed())
     {
-            Wire.beginTransmission(9); // transmit to device #9
-      Wire.write(2);             // sends x
+      Wire.beginTransmission(9); // transmit to device #9
+      Wire.write(4);             // sends x
       Wire.endTransmission();
-    }
-    else
-    {
     }
   }
   if (button_C.changed())
   {
     if (button_C.isPressed())
     {
-      Serial.print("s");
+      Wire.beginTransmission(9); // transmit to device #9
+      Wire.write(99);            // sends x
+      Wire.endTransmission();
     }
   }
   if (button_D.changed())
   {
     if (button_D.isPressed())
     {
-      Serial.print("0");
-    }
-    else
-    {
-      // Serial.println("s");
+      Wire.beginTransmission(9); // transmit to device #9
+      Wire.write(3);             // sends x
+      Wire.endTransmission();
     }
   }
   if (button_E.changed())
   {
     if (button_E.isPressed())
     {
-      Serial.println("on");
+      Wire.beginTransmission(9); // transmit to device #9
+      Wire.write(1);             // sends x
+      Wire.endTransmission();
     }
     else
     {
-      Serial.println("off");
+      Wire.beginTransmission(9); // transmit to device #9
+      Wire.write(2);             // sends x
+      Wire.endTransmission();
     }
   }
   if (button_F.changed())

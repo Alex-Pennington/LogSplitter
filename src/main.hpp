@@ -28,14 +28,34 @@ float Steinhart() {
         ADCvalue /= 10;
         float Va3 = (1.0 - ((float)ADCvalue / 1023.0)) * Vcc;
         float thermistorResistance = (seriesResistor * Va3) / (Vcc - Va3);
-        float tempF = (-0.259 * thermistorResistance) + 228.554;
-        // Serial.print("ADCvalue ");
-        // Serial.println(ADCvalue);
-        // Serial.print("Va3 ");
-        // Serial.println(Va3);
-        // Serial.print("thermistorResistance ");
-        // Serial.println(thermistorResistance);
-        // Serial.print("tempF ");
-        // Serial.println(tempF);
+        //https://www.thinksrs.com/downloads/programs/therm%20calc/ntccalibrator/ntccalculator.html
+        const float A = 1.499168475e-3;
+        const float B = 2.766247366e-4;
+        const float C = 0.2413822162e-7;
+
+        float logR = log(thermistorResistance);
+        float Kelvin = 1.0 / (A + B * logR + C * logR * logR * logR);
+        float tempF = (Kelvin - 273.15) * (9.0/5.0) + 32.0;
+        /* Debug Values
+        Serial.print("ADCvalue ");
+        Serial.println(ADCvalue);
+        Serial.print("Va3 ");
+        Serial.println(Va3);
+        Serial.print("thermistorResistance ");
+        Serial.println(thermistorResistance);
+        Serial.print("A ");
+        Serial.println((double)A,10);
+        Serial.print("B ");
+        Serial.println((double)B,10);
+        Serial.print("C ");
+        Serial.println((double)C,10);
+        Serial.print("logR ");
+        Serial.println(logR);
+        Serial.print("Kelvin ");
+        Serial.println(((double)Kelvin),10);
+        Serial.print("tempF ");
+        Serial.println((double)tempF,10);
+        Serial.println("------------------------");
+        */
         return tempF;
 }
