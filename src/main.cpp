@@ -9,7 +9,7 @@
 
 void setup() {
   Serial.begin(9600);
-  Serial.print("test");
+  Serial.print("Starting ...");
 
   // set up I2C
   Wire.begin(thisAddress); // join i2c bus
@@ -82,29 +82,34 @@ void loop() {
   // this function updates the data in txData
   updateDataToSend();
   // this function sends the data if one is ready to be sent
-  transmitData();
+  //transmitData();
   requestData();
 
 
   if (timeout60()) {
+    rqData = true;
     lcd.clear();
     lcd.setCursor(0, 0);
-    lcd.print("Temp: ");
+    lcd.print("Tank:");
     float tempF = Steinhart();
     //send(msg_S_TEMP.set((int)tempF));
 
     lcd.print(tempF);
-    lcd.print(" F");
+    lcd.print("F");
     // go to line #1
     lcd.setCursor(0, 1);
+    lcd.print("Nozzel: ");
+    float tempF_PID2 = rxData.valC;
+    lcd.print(tempF_PID2);
+    lcd.print("F");
   }
 
   if (timeout1()) {
-   if (backlight_state == true) {
-    lcd.setBacklight(100);
-   } else {
-    lcd.setBacklight(0);
-   }
+    if (backlight_state == true) {
+      lcd.setBacklight(100);
+    } else {
+      lcd.setBacklight(0);
+    }
   }
 
   buttons();

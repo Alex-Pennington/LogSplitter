@@ -12,24 +12,24 @@ float steinhart = 0;
 
 // data to be sent and received
 struct I2cTxStruct {
-    char textA[16];         // 16 bytes
-    int valA;               //  2
-    unsigned long valB;     //  4
-    byte padding[10];       // 10
-                            //------
-                            // 32
+    int flag;//  2
+    double valA;//  4
+    double valB;//  4
+    byte padding[18];
+            //------
+            //    32
 };
 
 struct I2cRxStruct {
-    char textB[16];         // 16 bytes
-    int valC;               //  2
-    unsigned long valD;     //  4
-    byte padding[10];       // 10
-                            //------
-                            // 32
+    int flag;//  2
+    double valC;//  4
+    double valD;//  4
+    byte padding[18];  
+            //------
+            //    32
 };
 
-I2cTxStruct txData = {"xxx", 236, 0};
+I2cTxStruct txData = {0, 236, 0};
 I2cRxStruct rxData;
 
 bool newTxData = false;
@@ -52,17 +52,10 @@ unsigned long updateInterval = 500;
 LiquidCrystal_I2C lcd(0x27, 20, 2); // set the LCD address to 0x27 for a 16 chars and 2 line display
 
 void updateDataToSend() {
-
     if (millis() - prevUpdateTime >= updateInterval) {
         prevUpdateTime = millis();
         if (newTxData == false) { // ensure previous message has been sent
-
-            char sText[] = "xxx";
-            strcpy(txData.textA, sText);
-            txData.valA += 10;
-            if (txData.valA > 300) {
-                txData.valA = 0;
-            }
+            txData.valA = 0;
             txData.valB = millis();
             newTxData = true;
         }
@@ -70,20 +63,10 @@ void updateDataToSend() {
 }
 
 void transmitData() {
-
     if (newTxData == true) {
         Wire.beginTransmission(otherAddress);
         Wire.write((byte*) &txData, sizeof(txData));
         Wire.endTransmission();    // this is what actually sends the data
-
-            // for demo show the data that as been sent
-        Serial.print("Sent ");
-        Serial.print(txData.textA);
-        Serial.print(' ');
-        Serial.print(txData.valA);
-        Serial.print(' ');
-        Serial.println(txData.valB);
-
         newTxData = false;
         rqData = true;
     }
@@ -104,8 +87,6 @@ void requestData() {
 void showNewData() {
 
     Serial.print("This just in    ");
-    Serial.print(rxData.textB);
-    Serial.print(' ');
     Serial.print(rxData.valC);
     Serial.print(' ');
     Serial.println(rxData.valD);
